@@ -98,147 +98,271 @@ Notre mission : vous offrir un espace créatif, chaleureux et équipé d’un ma
 </head>
 <body
     class="bg-(--bg) text-black antialiased duration-200 ease-out [-webkit-tap-highlight-color:transparent] dark:text-white"
-  ><header class="mx-auto flex flex-col max-w-screen-xl px-8 whitespace-nowrap lg:justify-center">
-  
-  <div class="mobile-header flex items-center justify-between w-full h-[3rem] md:hidden">
-    <button class="text-3xl ml-2 z-50" id="burger-menu-btn">
-      &#9776; 
-    </button>
-  </div>
+  ><style>
+#site-header {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  width: 100%;
+  z-index: 9000;
+  background-color: #b85042;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.28);
+}
 
+ 
+#header-desktop {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0.55rem 2rem;
+  height: 60px;
+  box-sizing: border-box;
+}
+#header-desktop .hd-brand {
+  display: flex; align-items: center; gap: 0.7rem; text-decoration: none;
+}
+#header-desktop .hd-brand img {
+  height: 46px; width: 46px; object-fit: contain; border-radius: 4px; flex-shrink: 0;
+}
+#header-desktop .hd-brand-text { display: flex; flex-direction: column; line-height: 1.25; }
+#header-desktop .hd-brand-name {
+  font-family: 'Abril Fatface', serif; font-size: 1.15rem; color: #fff; letter-spacing: 0.04em; font-weight: 400;
+}
+#header-desktop .hd-brand-sub {
+  font-size: 0.68rem; color: rgba(255,255,255,0.78); letter-spacing: 0.14em;
+  text-transform: uppercase; font-family: 'Roboto Slab', serif;
+}
+#header-desktop nav { display: flex; gap: 2rem; align-items: center; }
+#header-desktop nav a {
+  font-family: 'Roboto Slab', serif; font-size: 0.92rem; font-weight: 600;
+  color: #fff; text-decoration: none; letter-spacing: 0.04em;
+  padding-bottom: 2px; border-bottom: 2px solid transparent;
+  transition: color 0.18s, border-color 0.18s; display: inline;
+}
+#header-desktop nav a:hover { color: #ffe8a0; border-bottom-color: #ffe8a0; }
+
+ 
+#header-mobile {
+  display: none;
+  align-items: center;
+  justify-content: space-between;
+  height: 52px;
+  padding: 0 1rem;
+  box-sizing: border-box;
+}
+ 
+#hm-burger-btn {
+  background: none; border: none; cursor: pointer;
+  padding: 6px; display: flex; flex-direction: column; gap: 5px; flex-shrink: 0;
+}
+.hm-line {
+  display: block; width: 24px; height: 2px;
+  background: #fff; border-radius: 2px;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+ 
+body.nav-open .hm-line:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+body.nav-open .hm-line:nth-child(2) { opacity: 0; transform: scaleX(0); }
+body.nav-open .hm-line:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+ 
+#header-mobile .hm-brand {
+  display: flex; align-items: center; gap: 8px;
+}
+#header-mobile .hm-brand img {
+  height: 34px; width: 34px; object-fit: contain; border-radius: 3px; flex-shrink: 0;
+}
+#header-mobile .hm-brand-text { display: flex; flex-direction: column; line-height: 1.2; }
+#header-mobile .hm-brand-name {
+  font-family: 'Abril Fatface', serif; font-size: 0.92rem; color: #fff;
+}
+#header-mobile .hm-brand-sub {
+  font-family: 'Roboto Slab', serif; font-size: 0.6rem;
+  color: rgba(255,255,255,0.8); letter-spacing: 0.1em; text-transform: uppercase;
+}
+
+ 
+#hm-nav {
+  position: fixed; top: 0; left: 0;
+  height: 100vh; width: 72vw; max-width: 280px;
+  background-image: url("img/menu-bg.jpg");
+  background-size: cover; background-position: center top;
+  z-index: 9100;
+  padding: 4rem 1.8rem 2rem;
+  box-sizing: border-box;
+  display: flex; flex-direction: column; gap: 0;
+  transform: translateX(-100%);
+  transition: transform 0.36s cubic-bezier(0.4,0,0.2,1);
+  box-shadow: 4px 0 20px rgba(0,0,0,0.35);
+}
+ 
+#hm-close-btn {
+  position: absolute;
+  top: 0.8rem; right: 0.9rem;
+  background: none; border: none; cursor: pointer;
+  color: #fff; font-size: 1.8rem; line-height: 1;
+  text-shadow: 0 1px 4px rgba(0,0,0,0.5);
+  padding: 4px 8px;
+  transition: color 0.2s, transform 0.2s;
+}
+#hm-close-btn:hover { color: #ffe8a0; transform: scale(1.15); }
+#hm-nav.open { transform: translateX(0); }
+#hm-nav a {
+  font-family: 'Abril Fatface', serif; font-size: 1.2rem;
+  color: #fff; text-decoration: none;
+  padding: 0.85rem 0;
+  border-bottom: 1px solid rgba(255,255,255,0.25);
+  display: block; letter-spacing: 0.03em;
+  text-shadow: 0 1px 4px rgba(0,0,0,0.6);
+  transition: color 0.2s, padding-left 0.22s;
+}
+#hm-nav a:last-child { border-bottom: none; }
+#hm-nav a:hover { color: #ffe8a0; padding-left: 0.5rem; }
+
+ 
+#hm-overlay {
+  display: none; position: fixed; inset: 0;
+  background: rgba(30,10,0,0.48); z-index: 9050;
+}
+#hm-overlay.open { display: block; }
+
+ 
+@media (min-width: 769px) {
+  #header-desktop { display: flex; }
+  #header-mobile  { display: none; }
+  #site-header { height: 60px; }
+}
+@media (max-width: 768px) {
+  #header-desktop { display: none; }
+  #header-mobile  { display: flex; }
+  #site-header { height: 52px; }
+  #hm-nav { display: flex; }
+}
+</style>
+
+<div id="site-header">
   
-  <div id="burger-menu" class="fixed top-0 left-0 h-auto w-64 bg-[#D9A404] text-white shadow-lg transform -translate-x-full transition-transform duration-300 md:hidden">
-    <nav class="flex flex-col p-6 space-y-4">
-      <a href="#presentation" class="text-lg menu-link">Présentation</a>
-      <a href="#realisations" class="text-lg menu-link">Réalisations</a>
-      <a href="#tarifs" class="text-lg menu-link">Tarifs</a>
-      <a href="#contact" class="text-lg menu-link">Contact</a>
+  <div id="header-desktop">
+    <a href="https://studiolaremorque.com/" class="hd-brand">
+      <img src="https://studiolaremorque.com/img/logo.png" alt="Logo La Remorque">
+      <div class="hd-brand-text">
+        <span class="hd-brand-name">La Remorque</span>
+        <span class="hd-brand-sub">Studio Mobile</span>
+      </div>
+    </a>
+    <nav>
+      <a href="#presentation">Présentation</a>
+      <a href="#realisations">Réalisations</a>
+      <a href="#tarifs">Tarifs</a>
+      <a href="#contact">Contact</a>
     </nav>
   </div>
 
   
-  <div class="nav-wrapper hidden md:flex md:items-center md:justify-center w-full">
-    
-    <div class="flex items-center justify-center w-full space-x-8">
-      <a href="https://studiolaremorque.com/" class="flex items-center">
-        <img src="https://studiolaremorque.com/img/logo.png" alt="Logo" class="h-10" />
-        <span class="ml-3 text-xl font-medium">Studio La Remorque</span>
-      </a>
-      <nav class="flex flex-row items-center space-x-8">
-        <a href="#presentation" class="text-lg">Présentation</a>
-        <a href="#realisations" class="text-lg">Réalisations</a>
-        <a href="#tarifs" class="text-lg">Tarifs</a>
-        <a href="#contact" class="text-lg">Contact</a>
-      </nav>
+  <div id="header-mobile">
+    <button id="hm-burger-btn" aria-label="Ouvrir le menu">
+      <span class="hm-line"></span>
+      <span class="hm-line"></span>
+      <span class="hm-line"></span>
+    </button>
+    <div class="hm-brand">
+      <img src="https://studiolaremorque.com/img/logo.png" alt="La Remorque">
+      <div class="hm-brand-text">
+        <span class="hm-brand-name">La Remorque</span>
+        <span class="hm-brand-sub">Studio Mobile</span>
+      </div>
     </div>
   </div>
+</div>
 
-  
-  <script>
-    
-    const burgerMenuBtn = document.getElementById('burger-menu-btn');
-    const burgerMenu = document.getElementById('burger-menu');
-    const menuLinks = document.querySelectorAll('#burger-menu a');
+<nav id="hm-nav" aria-hidden="true">
+  <button id="hm-close-btn" aria-label="Fermer le menu">&#x2715;</button>
+  <a href="#presentation">Présentation</a>
+  <a href="#realisations">Réalisations</a>
+  <a href="#tarifs">Tarifs</a>
+  <a href="#contact">Contact</a>
+</nav>
+<div id="hm-overlay"></div>
 
-    
-    burgerMenuBtn.addEventListener('click', () => {
-      burgerMenu.classList.toggle('show');
-    });
-
-    
-    menuLinks.forEach(link => {
-      link.addEventListener('click', () => {
-        burgerMenu.classList.remove('show');
-      });
-    });
-  </script>
-</header>
+<script>
+(function () {
+  var btn     = document.getElementById('hm-burger-btn');
+  var closeBtn = document.getElementById('hm-close-btn');
+  var nav     = document.getElementById('hm-nav');
+  var overlay = document.getElementById('hm-overlay');
+  var links   = nav.querySelectorAll('a');
+  function open() {
+    nav.classList.add('open'); overlay.classList.add('open');
+    document.body.classList.add('nav-open');
+    nav.setAttribute('aria-hidden', 'false');
+    btn.setAttribute('aria-label', 'Fermer le menu');
+  }
+  function close() {
+    nav.classList.remove('open'); overlay.classList.remove('open');
+    document.body.classList.remove('nav-open');
+    nav.setAttribute('aria-hidden', 'true');
+    btn.setAttribute('aria-label', 'Ouvrir le menu');
+  }
+  if (btn) btn.addEventListener('click', function () { nav.classList.contains('open') ? close() : open(); });
+  if (closeBtn) closeBtn.addEventListener('click', close);
+  overlay.addEventListener('click', close);
+  links.forEach(function (l) { l.addEventListener('click', close); });
+})();
+</script>
 <main
       class="prose prose-neutral dark:prose-invert relative mx-auto min-h-[calc(100vh-9rem)] max-w-(--w) px-8 pt-14 pb-16"
     >
 <main class="home">
 
-<section id="presentation" style="padding: 10px 20px; padding-top : 100px; background: #e7e8d1; color: black; min-height: 100vh;">
-<h1 style="
-  text-align: center;
-  font-size: clamp(2em, 5vw, 3em); /* S'adapte en fonction de l'écran */
-  margin-bottom: 60px;
-  padding: 10px 20px; /* Réduction du padding pour mobile */
-  border: 4px solid black; /* Bordure un peu plus fine sur petit écran */
-  display: inline-block;
-  background: rgba(255, 255, 255, 0.1);
-  color: black;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  font-family: 'Abril Fatface', serif;
-  max-width: 90%; /* Empêche le débordement sur mobile */
-  box-sizing: border-box; /* Empêche le padding de causer un débordement */
-  word-wrap: break-word; /* Casse le texte si nécessaire */
-">
-  Studio La Remorque
-</h1>
+<section id="presentation" style="padding: 10px 20px; padding-top : 70px; background: #e7e8d1; color: black; min-height: 100vh;">
+<div style="display: flex; justify-content: center; margin-bottom: 50px;">
+  <img src="img/logo-presentation.png" alt="Logo Studio La Remorque" style="width: min(360px, 75vw); height: auto; object-fit: contain; margin-bottom: 20px;">
+</div>
 
-
-<div style="display: flex; flex-wrap: wrap; justify-content: center; align-items: flex-start; gap: 40px; max-width: 1000px; margin: 0 auto;">
+<div style="display: flex; flex-wrap: wrap; justify-content: center; align-items: flex-start; gap: 40px; max-width: 1000px; margin: 0 auto; margin-bottom: 60px;">
 
 
 <div style="flex: 2; min-width: 250px;">
-  <p style="font-size: 1.1em; line-height: 1.8; text-align: justify; margin-bottom: 20px;">
-    Le studio <strong>La Remorque</strong> est un studio d’enregistrement mobile qui s’adapte à votre projet. Je me déplace sur le lieu de votre choix avec<strong> tout le matériel nécessaire</strong> pour y installer un <strong>studio éphémère de qualité professionnelle</strong>.
+
+  <p style="font-size: 1.1em; line-height: 1.55; text-align: justify; margin-bottom: 16px;">
+    Spécialiste de l’enregistrement de <strong>musiques acoustiques</strong>, notamment la musique traditionnelle américaine, Old-Time et Bluegrass, je déplace un <strong>studio de qualité professionnelle</strong> dans le lieu de votre choix.
   </p>
 
-  <p style="font-size: 1.1em; line-height: 1.8; text-align: justify; margin-bottom: 20px;">
-    Pour un <strong>album</strong>, <strong>EP</strong>, <strong>enregistrement live</strong>, <strong>captation en extérieur</strong> ou dans un <strong>lieu spécifique</strong>, vous aurez une véritable expérience studio : 
-    <strong>matériel professionnel</strong> haut de gamme, <strong>traitement acoustique</strong> amovible, <strong>retours casque personnalisés</strong> pour chaque musicien.
+  <h3 style="font-family: 'Abril Fatface', serif; font-size: 1.1em; color: #b85042; margin-bottom: 8px; margin-top: 16px; letter-spacing: 0.03em;">Une configuration studio complète, partout</h3>
+  <p style="font-size: 1em; line-height: 1.55; text-align: justify; margin-bottom: 8px;">
+    Je recrée un environnement de travail exigeant là où vous êtes :
   </p>
+  <ul style="font-size: 1em; line-height: 1.6; margin-bottom: 16px; padding-left: 1.2em;">
+    <li><strong>Chaîne de signal haut de gamme</strong> et traitement acoustique mobile.</li>
+    <li><strong>Retours casques personnalisés</strong> pour un confort de jeu optimal.</li>
+    <li><strong>Régie mobile dédiée</strong> : écoute critique, montage et sélection des prises sur place.</li>
+  </ul>
 
-  <p style="font-size: 1.1em; line-height: 1.8; text-align: justify;">
-    Je m'adapte à chaque projet pour rester au plus proche de l’esthétique recherchée par les artistes : <strong>Enregistrement live</strong> ou <strong>instrument par instrument</strong>, dans un espace traité acoustiquement ou un lieu brut au caractère sonore unique, chaque choix technique est guidé par la musique et pensé pour que les musiciens se sentent à l’aise.
+  <h3 style="font-family: 'Abril Fatface', serif; font-size: 1.1em; color: #b85042; margin-bottom: 8px; margin-top: 16px; letter-spacing: 0.03em;">La technique au service de votre esthétique</h3>
+  <p style="font-size: 1em; line-height: 1.55; text-align: justify; margin-bottom: 8px;">
+    Mon approche est celle d’un pur technicien. Je pars du principe que le groupe sait ce qu’il veut et je respecte ses choix.
   </p>
+  <ul style="font-size: 1em; line-height: 1.6; margin-bottom: 12px; padding-left: 1.2em;">
+    <li><strong>Fidélité</strong> : Capter le son du groupe avec le moins d’empreinte personnelle possible.</li>
+    <li><strong>Respect artistique</strong> : Je ne donne mon avis ni sur les choix d’arrangement, ni sur les choix esthétiques, ni sur le choix des prises, sauf si le groupe me sollicite explicitement.</li>
+    <li><strong>Résultat</strong> : Une session plus rapide et fluide, et un enregistrement fidèle et organique, garant de votre identité et de vos choix artistiques.</li>
+  </ul>
+
 </div>
-
 
   
-  <div style="flex: 1; min-width: 250px; background: rgba(255, 255, 255, 0.1); padding: 20px; border: 3px solid black;">
+  <div style="flex: 1; min-width: 250px; background: #a7beae; padding: 20px; border: 3px solid #7a9a84;">
     <img src="img/photo-profils.jpg" alt="Photo du fondateur" style="width: 100%; height: auto; margin-bottom: 20px;">
     <p style="font-size: 1em; line-height: 1.6; text-align: justify; word-wrap: break-word;">
-Paul Rozière est technicien son, électronicien de formation et musicien, passionné par la prise de son en studio. Depuis plusieurs années, il a enregistré des projets musicaux de tous horizons, mais aussi des podcasts, travaillé sur des fictions radios, des bruitages et du sound design pour courts-métrages. </p>
-  </div>
-    <p style="margin-top: 30px; text-align: center;">
-      <a href="#tarifs" style="color: #fff; font-weight: bold; text-decoration: none; background-color: #d94c4c; padding: 10px 20px; border-radius: 5px;">Voir nos tarifs</a>
+      Paul Rozière — je suis électronicien de formation, technicien son studio et live, et musicien de Bluegrass, Old-Time et Trad français dans les groupes <em>Toux Grass Unit</em> et <em>FUM</em>.
     </p>
+  </div>
 </div>
 
-<style>
-   
-  @media (max-width: 768px) {
-    .presentation-container {
-      flex-direction: column;
-      align-items: center;
-      gap: 20px;
-    }
-
-    .presentation-text, .presentation-image {
-      max-width: 80%;
-      min-width: 0;
-    }
-
-     
-    .presentation-text p {
-      font-size: 1em;
-    }
-
-     
-    .presentation-image img {
-      width: 100%;
-      height: auto;
-    }
-  }
-</style>
 
 
-
-<section id="realisations" 
+<section id="realisations" style="scroll-margin-top: 60px;" 
   style="
     padding: 15px 0; /* Supprime le padding latéral */
     padding-top: 50px; 
@@ -246,23 +370,63 @@ Paul Rozière est technicien son, électronicien de formation et musicien, passi
     color: black; 
     min-height: 100vh;">
 
-  <h2 style="color: #d94c4c; text-align: center;">Nos Réalisations</h2>
-  <p style="text-align: center; color: #666;">Quelques morceaux et projets produits avec le Studio La Remorque :</p>
+  <h1 style="font-size: clamp(1.4em, 4vw, 2.4em);
+    margin-bottom: 24px;
+    text-transform: uppercase;
+    font-family: 'Abril Fatface', serif;
+    color: #b85042;
+    text-align: center;
+    white-space: nowrap;">Réalisations</h1>
+  <p style="text-align: center; color: #666;">Quelques morceaux enregistrés et/ou mixés par le studio La Remorque</p>
 
- 
+
 <div style="
-  display: grid; 
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); 
-  gap: 0px; 
-  max-width: 95%; /* S'adapte mieux aux petits écrans */
-  margin: 0 auto; /* Centre la grille */
-  padding: 0; /* Supprime le padding */
-  box-sizing: border-box; 
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 0px;
+  max-width: 95%;
+  margin: 0 auto;
+  padding: 0;
+  box-sizing: border-box;
 ">
 
+    <div style="background: linear-gradient(rgba(245,235,200,0.58), rgba(245,235,200,0.58)), url('img/bloc-bg-1.jpg'); background-size: cover; background-position: center; padding: 15px; border: 2px solid #d94c4c; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
+      <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;">
+        <iframe src="https://www.youtube.com/embed/wheVQcfrEF8"
+                frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowfullscreen
+                style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;">
+        </iframe>
+      </div>
+      <div style="margin-top: 15px; font-size: 0.9em; color: #555;">
+        <h3 style="margin: 0 0 8px; color: #d94c4c; font-size: 1.2em; font-weight: bold; text-shadow: 0 1px 3px rgba(255,245,200,0.95), 0 0 8px rgba(255,245,200,0.8);">Salmon & the Laundry Bear</h3>
+        <p style="margin: 0; font-weight: bold; text-shadow: 0 1px 4px rgba(255,248,210,0.98), 0 0 10px rgba(255,248,210,0.85);">Deux Voyages</p>
+        <p style="margin: 5px 0 0; font-weight: 600; text-shadow: 0 1px 3px rgba(255,248,210,0.98);">Prise de son</p>
+        <p style="margin: 5px 0 0; text-shadow: 0 1px 3px rgba(255,248,210,0.98);">Enregistré en Anger – Août 2024</p>
+        <p style="margin: 5px 0 0; font-style: italic; text-shadow: 0 1px 3px rgba(255,248,210,0.98);">Folk</p>
+      </div>
+    </div>
 
-    
-    <div style="background: white; padding: 15px; border: 2px solid #d94c4c; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
+    <div style="background: linear-gradient(rgba(245,235,200,0.58), rgba(245,235,200,0.58)), url('img/bloc-bg-2.jpg'); background-size: cover; background-position: center; padding: 15px; border: 2px solid #d94c4c; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
+      <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;">
+        <iframe src="https://www.youtube.com/embed/WyYBFXk_PHU"
+                frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowfullscreen
+                style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;">
+        </iframe>
+      </div>
+      <div style="margin-top: 15px; font-size: 0.9em; color: #555;">
+        <h3 style="margin: 0 0 8px; color: #d94c4c; font-size: 1.2em; font-weight: bold; text-shadow: 0 1px 3px rgba(255,245,200,0.95), 0 0 8px rgba(255,245,200,0.8);">Toux Grass Unit</h3>
+        <p style="margin: 0; font-weight: bold; text-shadow: 0 1px 4px rgba(255,248,210,0.98), 0 0 10px rgba(255,248,210,0.85);">Wrong Road Again</p>
+        <p style="margin: 5px 0 0; font-weight: 600; text-shadow: 0 1px 3px rgba(255,248,210,0.98);">Prise de son & Mixage</p>
+        <p style="margin: 5px 0 0; text-shadow: 0 1px 3px rgba(255,248,210,0.98);">Enregistré en Ariège – Décembre 2024</p>
+        <p style="margin: 5px 0 0; font-style: italic; text-shadow: 0 1px 3px rgba(255,248,210,0.98);">Bluegrass</p>
+      </div>
+    </div>
+
+    <div style="background: linear-gradient(rgba(245,235,200,0.58), rgba(245,235,200,0.58)), url('img/bloc-bg-3.jpg'); background-size: cover; background-position: center; padding: 15px; border: 2px solid #d94c4c; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
       <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;">
         <iframe src="https://www.youtube.com/embed/Y3bnwsSMEBs"
                 frameborder="0"
@@ -271,95 +435,16 @@ Paul Rozière est technicien son, électronicien de formation et musicien, passi
                 style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;">
         </iframe>
       </div>
-  <div style="margin-top: 15px; font-size: 0.9em; color: #555;">
-    <h3 style="margin: 0 0 8px; color: #d94c4c; font-size: 1.2em; font-weight: bold;">Early Birds</h3>
-    <p style="margin: 0; font-weight: bold;">Let my soul be light</p>
-    <p style="margin: 5px 0 0; font-weight: 600;">Prise de son & Mixage</p>
-    <p style="margin: 5px 0 0;">Enregistré en Haute-Savoie – Août 2024</p>
-    <p style="margin: 5px 0 0; font-style: italic;">Bluegrass</p>
-  </div>
-    </div>
-	
-	
-    <div style="background: white; padding: 15px; border: 2px solid #d94c4c; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
-      <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;">
-        <iframe src="https://www.youtube.com/embed/Rl-oqEWNXV8"
-                frameborder="0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowfullscreen
-                style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;">
-        </iframe>
+      <div style="margin-top: 15px; font-size: 0.9em; color: #555;">
+        <h3 style="margin: 0 0 8px; color: #d94c4c; font-size: 1.2em; font-weight: bold; text-shadow: 0 1px 3px rgba(255,245,200,0.95), 0 0 8px rgba(255,245,200,0.8);">Early Birds</h3>
+        <p style="margin: 0; font-weight: bold; text-shadow: 0 1px 4px rgba(255,248,210,0.98), 0 0 10px rgba(255,248,210,0.85);">Let my soul be light</p>
+        <p style="margin: 5px 0 0; font-weight: 600; text-shadow: 0 1px 3px rgba(255,248,210,0.98);">Prise de son & Mixage</p>
+        <p style="margin: 5px 0 0; text-shadow: 0 1px 3px rgba(255,248,210,0.98);">Enregistré en Haute-Savoie – Août 2024</p>
+        <p style="margin: 5px 0 0; font-style: italic; text-shadow: 0 1px 3px rgba(255,248,210,0.98);">Bluegrass</p>
       </div>
-   <div style="margin-top: 15px; font-size: 0.9em; color: #555;">
-    <h3 style="margin: 0 0 8px; color: #d94c4c; font-size: 1.2em; font-weight: bold;">One Tone Press</h3>
-    <p style="margin: 0; font-weight: bold;">Vaporium</p>
-    <p style="margin: 5px 0 0; font-weight: 600;">Prise de son & Mixage</p>
-    <p style="margin: 5px 0 0;">Enregistré en Isère – Septembre 2021</p>
-    <p style="margin: 5px 0 0; font-style: italic;">Punk/Cold-Wave/Electro</p>
-  </div>
     </div>
 
-  
-    <div style="background: white; padding: 15px; border: 2px solid #d94c4c; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
-      <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;">
-        <iframe src="https://www.youtube.com/embed/u5SBBR5eN2c?si=p5EVvySBfRk8KK-V"
-                frameborder="0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowfullscreen
-                style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;">
-        </iframe>
-      </div>
-  <div style="margin-top: 15px; font-size: 0.9em; color: #555;">
-    <h3 style="margin: 0 0 8px; color: #d94c4c; font-size: 1.2em; font-weight: bold;">Toux Grass Unit</h3>
-    <p style="margin: 0; font-weight: bold;">Raleigh and Spencer</p>
-    <p style="margin: 5px 0 0; font-weight: 600;">Prise de son & Mixage</p>
-    <p style="margin: 5px 0 0;">Enregistré en Ariège - Décembre 2024</p>
-    <p style="margin: 5px 0 0; font-style: italic;">Bluegrass</p>
-  </div>
-    </div>
-	
-    
-    <div style="background: white; padding: 15px; border: 2px solid #d94c4c; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
-      <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;">
-        <iframe src="https://www.youtube.com/embed/50UhQ18EFMo"
-                frameborder="0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowfullscreen
-                style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;">
-        </iframe>
-      </div>
-   <div style="margin-top: 15px; font-size: 0.9em; color: #555;">
-    <h3 style="margin: 0 0 8px; color: #d94c4c; font-size: 1.2em; font-weight: bold;">What Washington Wants</h3>
-    <p style="margin: 0; font-weight: bold;">Lovely Day</p>
-    <p style="margin: 5px 0 0; font-weight: 600;">Prise de son & Mixage</p>
-    <p style="margin: 5px 0 0;">Enregistré en Lozère – Juin 2022</p>
-    <p style="margin: 5px 0 0; font-style: italic;">Rock Noise</p>
-  </div>
-    </div>
-	
-	
-
-    
-    <div style="background: white; padding: 15px; border: 2px solid #d94c4c; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
-      <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;">
-        <iframe src="https://www.youtube.com/embed/dXSXAKM6XJg"
-                frameborder="0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowfullscreen
-                style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;">
-        </iframe>
-      </div>
-  <div style="margin-top: 15px; font-size: 0.9em; color: #555;">
-    <h3 style="margin: 0 0 8px; color: #d94c4c; font-size: 1.2em; font-weight: bold;">FUM</h3>
-    <p style="margin: 0; font-weight: bold;">Jorn de Fièra</p>
-    <p style="margin: 5px 0 0; font-weight: 600;">Prise de son & Mixage</p>
-    <p style="margin: 5px 0 0;">Enregistré en Ariège - Décembre 2024</p>
-    <p style="margin: 5px 0 0; font-style: italic;">Bluegrass occitan</p>
-  </div>
-    </div>
-
-    
-    <div style="background: white; padding: 15px; border: 2px solid #d94c4c; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
+    <div style="background: linear-gradient(rgba(245,235,200,0.58), rgba(245,235,200,0.58)), url('img/bloc-bg-4.jpg'); background-size: cover; background-position: center; padding: 15px; border: 2px solid #d94c4c; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
       <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;">
         <iframe src="https://www.youtube.com/embed/I7M6K8ivfAk"
                 frameborder="0"
@@ -368,18 +453,34 @@ Paul Rozière est technicien son, électronicien de formation et musicien, passi
                 style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;">
         </iframe>
       </div>
-  <div style="margin-top: 15px; font-size: 0.9em; color: #555;">
-    <h3 style="margin: 0 0 8px; color: #d94c4c; font-size: 1.2em; font-weight: bold;">Elisa Bories + Calcaire</h3>
-    <p style="margin: 0; font-weight: bold;">Exploser proprement</p>
-    <p style="margin: 5px 0 0; font-weight: 600;">Mixage</p>
-    <p style="margin: 5px 0 0;">2022</p>
-    <p style="margin: 5px 0 0; font-style: italic;">Poésie électro</p>
-  </div>
+      <div style="margin-top: 15px; font-size: 0.9em; color: #555;">
+        <h3 style="margin: 0 0 8px; color: #d94c4c; font-size: 1.2em; font-weight: bold; text-shadow: 0 1px 3px rgba(255,245,200,0.95), 0 0 8px rgba(255,245,200,0.8);">Elisa Bories + Calcaire</h3>
+        <p style="margin: 0; font-weight: bold; text-shadow: 0 1px 4px rgba(255,248,210,0.98), 0 0 10px rgba(255,248,210,0.85);">Exploser proprement</p>
+        <p style="margin: 5px 0 0; font-weight: 600; text-shadow: 0 1px 3px rgba(255,248,210,0.98);">Mixage</p>
+        <p style="margin: 5px 0 0; text-shadow: 0 1px 3px rgba(255,248,210,0.98);">2022</p>
+        <p style="margin: 5px 0 0; font-style: italic; text-shadow: 0 1px 3px rgba(255,248,210,0.98);">Poésie électro</p>
+      </div>
     </div>
 
-	
-    
-    <div style="background: white; padding: 15px; border: 2px solid #d94c4c; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
+    <div style="background: linear-gradient(rgba(245,235,200,0.58), rgba(245,235,200,0.58)), url('img/bloc-bg-5.jpg'); background-size: cover; background-position: center; padding: 15px; border: 2px solid #d94c4c; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
+      <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;">
+        <iframe src="https://www.youtube.com/embed/50UhQ18EFMo"
+                frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowfullscreen
+                style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;">
+        </iframe>
+      </div>
+      <div style="margin-top: 15px; font-size: 0.9em; color: #555;">
+        <h3 style="margin: 0 0 8px; color: #d94c4c; font-size: 1.2em; font-weight: bold; text-shadow: 0 1px 3px rgba(255,245,200,0.95), 0 0 8px rgba(255,245,200,0.8);">What Washington Wants</h3>
+        <p style="margin: 0; font-weight: bold; text-shadow: 0 1px 4px rgba(255,248,210,0.98), 0 0 10px rgba(255,248,210,0.85);">Lovely Day</p>
+        <p style="margin: 5px 0 0; font-weight: 600; text-shadow: 0 1px 3px rgba(255,248,210,0.98);">Prise de son & Mixage</p>
+        <p style="margin: 5px 0 0; text-shadow: 0 1px 3px rgba(255,248,210,0.98);">Enregistré en Lozère – Juin 2022</p>
+        <p style="margin: 5px 0 0; font-style: italic; text-shadow: 0 1px 3px rgba(255,248,210,0.98);">Rock Noise</p>
+      </div>
+    </div>
+
+    <div style="background: linear-gradient(rgba(245,235,200,0.58), rgba(245,235,200,0.58)), url('img/bloc-bg-6.jpg'); background-size: cover; background-position: center; padding: 15px; border: 2px solid #d94c4c; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
       <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;">
         <iframe src="https://www.youtube.com/embed/aiayF8PsIao"
                 frameborder="0"
@@ -388,63 +489,34 @@ Paul Rozière est technicien son, électronicien de formation et musicien, passi
                 style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;">
         </iframe>
       </div>
-   <div style="margin-top: 15px; font-size: 0.9em; color: #555;">
-    <h3 style="margin: 0 0 8px; color: #d94c4c; font-size: 1.2em; font-weight: bold;">105 de Groove</h3>
-    <p style="margin: 0; font-weight: bold;">La dame aux sacs</p>
-    <p style="margin: 5px 0 0; font-weight: 600;">Prise de son</p>
-    <p style="margin: 5px 0 0;">Enregistré a Lyon – Printemps 2019</p>
-    <p style="margin: 5px 0 0; font-style: italic;">Rap / Hip hop instrumental</p>
-  </div>
+      <div style="margin-top: 15px; font-size: 0.9em; color: #555;">
+        <h3 style="margin: 0 0 8px; color: #d94c4c; font-size: 1.2em; font-weight: bold; text-shadow: 0 1px 3px rgba(255,245,200,0.95), 0 0 8px rgba(255,245,200,0.8);">105 de Groove</h3>
+        <p style="margin: 0; font-weight: bold; text-shadow: 0 1px 4px rgba(255,248,210,0.98), 0 0 10px rgba(255,248,210,0.85);">La dame aux sacs</p>
+        <p style="margin: 5px 0 0; font-weight: 600; text-shadow: 0 1px 3px rgba(255,248,210,0.98);">Prise de son</p>
+        <p style="margin: 5px 0 0; text-shadow: 0 1px 3px rgba(255,248,210,0.98);">Enregistré à Lyon – Printemps 2019</p>
+        <p style="margin: 5px 0 0; font-style: italic; text-shadow: 0 1px 3px rgba(255,248,210,0.98);">Rap / Hip hop instrumental</p>
+      </div>
     </div>
 
-    
-    <div style="background: white; padding: 15px; border: 2px solid #d94c4c; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
+    <div style="background: linear-gradient(rgba(245,235,200,0.58), rgba(245,235,200,0.58)), url('img/bloc-bg-7.jpg'); background-size: cover; background-position: center; padding: 15px; border: 2px solid #d94c4c; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
       <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;">
-        <iframe src="https://www.youtube.com/embed/3U6JIuH-c3E"
+        <iframe src="https://www.youtube.com/embed/Rl-oqEWNXV8"
                 frameborder="0"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                 allowfullscreen
                 style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;">
         </iframe>
       </div>
-  <div style="margin-top: 15px; font-size: 0.9em; color: #555;">
-    <h3 style="margin: 0 0 8px; color: #d94c4c; font-size: 1.2em; font-weight: bold;">Bluegrassoulet Colo #2</h3>
-    <p style="margin: 0; font-weight: bold;">Colours</p>
-    <p style="margin: 5px 0 0; font-weight: 600;">Prise de son & Mixage</p>
-    <p style="margin: 5px 0 0;">Enregistré dans le Tarn - Février 2024</p>
-    <p style="margin: 5px 0 0; font-style: italic;">Folk/Bluegrass</p>
-	<p style="margin: 10px 0 0; font-size: 0.85em; color: #333; line-height: 1.6;">
-      <em>Enregistrement des jams pendant les rassemblements du collectif Bluegrassoulet</em>
-    </p>
-  </div>
+      <div style="margin-top: 15px; font-size: 0.9em; color: #555;">
+        <h3 style="margin: 0 0 8px; color: #d94c4c; font-size: 1.2em; font-weight: bold; text-shadow: 0 1px 3px rgba(255,245,200,0.95), 0 0 8px rgba(255,245,200,0.8);">One Tone Press</h3>
+        <p style="margin: 0; font-weight: bold; text-shadow: 0 1px 4px rgba(255,248,210,0.98), 0 0 10px rgba(255,248,210,0.85);">Vaporium</p>
+        <p style="margin: 5px 0 0; font-weight: 600; text-shadow: 0 1px 3px rgba(255,248,210,0.98);">Prise de son & Mixage</p>
+        <p style="margin: 5px 0 0; text-shadow: 0 1px 3px rgba(255,248,210,0.98);">Enregistré en Isère – Septembre 2021</p>
+        <p style="margin: 5px 0 0; font-style: italic; text-shadow: 0 1px 3px rgba(255,248,210,0.98);">Punk/Cold-Wave/Electro</p>
+      </div>
     </div>
 
-	  
-	  <div style="background: white; padding: 15px; border: 2px solid #d94c4c; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
-		<div>
-		  <iframe style="border: 0; width: 100%; height: 42px;" 
-			src="https://bandcamp.com/EmbeddedPlayer/album=3920147847/size=small/bgcol=ffffff/linkcol=0687f5/track=2965387154/transparent=true/" 
-			seamless>
-			<a href="https://laroche-workshop.bandcamp.com/album/la-roche-workshop-bandlabs-2024">
-			  La Roche Workshop - Bandlabs 2024 de Workshop - La Roche Bluegrass 2024
-			</a>
-		  </iframe>
-		</div>
-  <div style="margin-top: 15px; font-size: 0.9em; color: #555;">
-    <h3 style="margin: 0 0 8px; color: #d94c4c; font-size: 1.2em; font-weight: bold;">Stagiaires Bluegrass in La Roche</h3>
-    <p style="margin: 0; font-weight: bold;">Cumberland Gap</p>
-    <p style="margin: 5px 0 0; font-weight: 600;">Prise de son & Mixage</p>
-    <p style="margin: 5px 0 0;">Enregistré à La Roche sur Foron - Aout 2024</p>
-    <p style="margin: 5px 0 0; font-style: italic;">Bluegrass</p>
-	<p style="margin: 10px 0 0; font-size: 0.85em; color: #333; line-height: 1.6;">
-      <em>Enregistrement des groupes formés par les stagiaires du workshop de Bluegrass in La Roche</em>
-    </p>
-  </div>
-	  </div>
-
-
-    
-    <div style="background: white; padding: 15px; border: 2px solid #d94c4c; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
+    <div style="background: linear-gradient(rgba(245,235,200,0.58), rgba(245,235,200,0.58)), url('img/bloc-bg-8.jpg'); background-size: cover; background-position: center; padding: 15px; border: 2px solid #d94c4c; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
       <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;">
         <iframe src="https://www.youtube.com/embed/F77QGNeXr5M"
                 frameborder="0"
@@ -453,30 +525,21 @@ Paul Rozière est technicien son, électronicien de formation et musicien, passi
                 style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;">
         </iframe>
       </div>
- <div style="margin-top: 15px; font-size: 0.9em; color: #555;">
-    <h3 style="margin: 0 0 8px; color: #d94c4c; font-size: 1.2em; font-weight: bold;">La Danza Negra</h3>
-    <p style="margin: 0; font-weight: bold;">lima</p>
-    <p style="margin: 5px 0 0; font-weight: 600;">Prise de son & Mixage</p>
-    <p style="margin: 5px 0 0;">Enregistré à Lyon - Mai 2019</p>
-    <p style="margin: 5px 0 0; font-style: italic;">Guitare classique / Percussions</p>
-	<p style="margin: 10px 0 0; font-size: 0.85em; color: #333; line-height: 1.6;">
-      <em>Captation vidéo promotionnelle réalisée pour le luthier Mayeul Pradel à Lyon</em>
-    </p>	
-  </div>
+      <div style="margin-top: 15px; font-size: 0.9em; color: #555;">
+        <h3 style="margin: 0 0 8px; color: #d94c4c; font-size: 1.2em; font-weight: bold; text-shadow: 0 1px 3px rgba(255,245,200,0.95), 0 0 8px rgba(255,245,200,0.8);">La Danza Negra</h3>
+        <p style="margin: 0; font-weight: bold; text-shadow: 0 1px 4px rgba(255,248,210,0.98), 0 0 10px rgba(255,248,210,0.85);">Lima</p>
+        <p style="margin: 5px 0 0; font-weight: 600; text-shadow: 0 1px 3px rgba(255,248,210,0.98);">Prise de son & Mixage</p>
+        <p style="margin: 5px 0 0; text-shadow: 0 1px 3px rgba(255,248,210,0.98);">Enregistré à Lyon – Mai 2019</p>
+        <p style="margin: 5px 0 0; font-style: italic; text-shadow: 0 1px 3px rgba(255,248,210,0.98);">Guitare classique / Percussions</p>
+    <p style="margin: 10px 0 0; font-size: 0.85em; color: #333; line-height: 1.6;"><em>Captation vidéo promotionnelle réalisée pour le luthier Mayeul Pradel à Lyon</em></p>
+      </div>
     </div>
-
-  
-  
-    
 
 </div>
 
-  <p style="margin-top: 40px; text-align: center; color: #d94c4c;">
-  <a href="#contact" style="color: #d94c4c;">👉 Contactez-nous pour produire vos morceaux</a></p>
-
 </section>
 
-<section id="tarifs" style="
+<section id="tarifs" style="scroll-margin-top: 60px;
   padding: 80px 20px; 
   background: #e7e8d1; 
   color: black; 
@@ -487,7 +550,7 @@ Paul Rozière est technicien son, électronicien de formation et musicien, passi
   text-align: center;
 ">
   <h1 style="
-    font-size: clamp(2em, 5vw, 3em); 
+    font-size: clamp(1.4em, 4vw, 2.4em); 
     margin-bottom: 30px;
     text-transform: uppercase;
     font-family: 'Abril Fatface', serif;
@@ -510,15 +573,15 @@ Paul Rozière est technicien son, électronicien de formation et musicien, passi
     ">
       
       <div style="
-        background:  #e7e8d1; 
+        background: #d8dfc4; 
         padding: 10px; 
         border: 2px solid #b85042; 
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         border-radius: 8px;
       ">
-        <h2 style="color: #b85042; margin-bottom: 10px;">Enregistrement</h2>
+        <h2 style="color: #b85042; margin-bottom: 10px; white-space: nowrap; font-size: clamp(0.85em, 3.5vw, 1.5em);">Enregistrement</h2>
         <p>1 à 2 jours : <strong>250€</strong>/jour</p>
-        <p>3 jours et plus : <strong>200€</strong>/jour</p>
+        <p>À partir du 3ème jour : <strong>200€</strong>/jour</p>
         <p style="font-size: 0.9em; color: #555;">
           Des frais kilométriques peuvent s'ajouter pour les déplacements en dehors de l'Ariège.
         </p>
@@ -526,7 +589,7 @@ Paul Rozière est technicien son, électronicien de formation et musicien, passi
 
       
       <div style="
-        background:  #e7e8d1; 
+        background: #d8dfc4; 
         padding: 20px; 
         border: 2px solid #b85042; 
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -539,33 +602,13 @@ Paul Rozière est technicien son, électronicien de formation et musicien, passi
         </p>
       </div>
     </div>
-
-    
-    <p style="margin-top: 40px;">
-      <a href="#contact" style="
-        display: inline-block;
-        background-color: #b85042; 
-        color: white; 
-        padding: 12px 24px; 
-        text-decoration: none; 
-        border-radius: 5px; 
-        font-weight: bold;
-        font-size: 1.1em;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        transition: background 0.3s ease-in-out;
-      "
-      onmouseover="this.style.backgroundColor='#a03832'"
-      onmouseout="this.style.backgroundColor='#b85042'">
-        📩 Demander un devis personnalisé
-      </a>
-    </p>
   </div>
 </section>
 
-<section id="contact" style="
-  padding: 80px 1px; 
-  background: #a7beae; 
-  color: white; 
+<section id="contact" style="scroll-margin-top: 60px;
+  padding: 80px 20px;
+  background: #a7beae;
+  color: white;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -573,41 +616,28 @@ Paul Rozière est technicien son, électronicien de formation et musicien, passi
   text-align: center;
 ">
   <h1 style="
-    font-size: clamp(2em, 5vw, 3em); 
-    margin-bottom: 30px;
+    font-size: clamp(1.4em, 4vw, 2.4em);
+    margin-bottom: 40px;
     text-transform: uppercase;
     font-family: 'Abril Fatface', serif;
+    color: #b85042;
+    white-space: nowrap;
   ">
     Contact
   </h1>
 
-  <div style="
-    max-width: 800px; 
-    width: 100%;
-    font-size: 1.1em;
-    line-height: 1.8;
-    word-break: break-word; /* Empêche le débordement */
-    overflow-wrap: break-word;
-  ">
-    <p>Pour toute demande d'information, devis ou prise de rendez-vous, n'hésitez pas à me contacter :</p>
+  <div style="max-width: 600px; width: 100%; font-size: 1.05em; line-height: 1.8;">
+
+    <p style="margin-bottom: 28px; font-size: 1em;">Pour toute demande de devis ou d'information :</p>
 
     
-    <p style="
-      margin-top: 20px;
-      display: flex; 
-      align-items: center; 
-      justify-content: center;
-      gap: 10px;
-      flex-wrap: wrap;
-    ">
-      <img src="https://img.icons8.com/ios-filled/30/ffffff/new-post.png" alt="Email">
-      <a href="mailto:studiolaremorque@gmail.com" style="
-        color: white; 
-        text-decoration: none; 
-        font-weight: bold;
-        transition: color 0.3s ease-in-out;
-        word-break: break-word;
-        overflow-wrap: break-word;
+    <p style="display: flex; align-items: center; justify-content: center; gap: 10px; flex-wrap: nowrap; margin-bottom: 8px;">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M2 7l10 7 10-7"/></svg>
+      <a href="mailto:studiolaremorque@outlook.fr" style="
+        color: white; font-weight: bold; text-decoration: none;
+        font-size: clamp(0.72em, 3.2vw, 1em);
+        white-space: nowrap;
+        transition: color 0.2s;
       "
       onmouseover="this.style.color='#d1e8e2'"
       onmouseout="this.style.color='white'">
@@ -616,19 +646,11 @@ Paul Rozière est technicien son, électronicien de formation et musicien, passi
     </p>
 
     
-    <p style="
-      margin-top: 10px;
-      display: flex; 
-      align-items: center; 
-      justify-content: center;
-      gap: 10px;
-    ">
-      <img src="https://img.icons8.com/ios-filled/30/ffffff/phone.png" alt="Téléphone">
+    <p style="display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 16px;">
+      <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0"><path d="M22 16.92v3a2 2 0 0 1-2.18 2A19.8 19.8 0 0 1 3.08 4.18 2 2 0 0 1 5.07 2h3a2 2 0 0 1 2 1.72c.13 1 .37 1.97.72 2.9a2 2 0 0 1-.45 2.11L9.09 9.91a16 16 0 0 0 6 6l1.18-1.18a2 2 0 0 1 2.11-.45c.93.35 1.9.59 2.9.72A2 2 0 0 1 22 16.92z"/></svg>
       <a href="tel:+33633583602" style="
-        color: white; 
-        text-decoration: none; 
-        font-weight: bold;
-        transition: color 0.3s ease-in-out;
+        color: white; font-weight: bold; text-decoration: none;
+        transition: color 0.2s;
       "
       onmouseover="this.style.color='#d1e8e2'"
       onmouseout="this.style.color='white'">
@@ -637,21 +659,15 @@ Paul Rozière est technicien son, électronicien de formation et musicien, passi
     </p>
 
     
-    <p style="margin-top: 20px;">Retrouvez-nous aussi sur :</p>
-
-    <div style="
-      margin-top: 10px;
-      display: flex;
-      justify-content: center;
-      gap: 20px;
-    ">
-      <a href="https://www.facebook.com/profile.php?id=61574765486051" target="_blank">
+    <div style="display: flex; justify-content: center; gap: 24px; align-items: center;">
+      <a href="https://www.facebook.com/profile.php?id=61574765486051" target="_blank" title="Facebook">
         <img src="https://img.icons8.com/ios-filled/40/ffffff/facebook.png" alt="Facebook">
       </a>
-      <a href="https://www.instagram.com/studio_la_remorque?igsh=MzlrMDB5amYzZHBq" target="_blank">
+      <a href="https://www.instagram.com/studio_la_remorque?igsh=MzlrMDB5amYzZHBq" target="_blank" title="Instagram">
         <img src="https://img.icons8.com/ios-filled/40/ffffff/instagram-new.png" alt="Instagram">
       </a>
     </div>
+
   </div>
 </section>
 
@@ -661,7 +677,7 @@ Paul Rozière est technicien son, électronicien de formation et musicien, passi
 </main><footer
   class="mx-auto flex h-[4.5rem] max-w-(--w) items-center px-8 text-xs tracking-wider uppercase opacity-60"
 >
-  <div class="mr-auto">&copy;2025&nbsp;
+  <div class="mr-auto">&copy;2026&nbsp;
     <a class="link" href="https://studiolaremorque.com/">Studio La Remorque</a></div>
    
 </footer>
